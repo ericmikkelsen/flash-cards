@@ -42,9 +42,20 @@ function generateInitialOrderStyle(count) {
   return properties.join(';');
 }
 
+// Function to generate CSS rules for nth-child selectors
+function generateOrderCSS(count) {
+  const rules = [];
+  for (let i = 1; i <= count; i++) {
+    // Button is first child, so details start at child(2)
+    rules.push(`    flash-cards > details:nth-child(${i + 1}) { --fc-order: var(--fc-${i}); }`);
+  }
+  return rules.join('\n');
+}
+
 // Generate the complete HTML
 const flashcardsHTML = generateAllFlashcardsHTML(flashcardsData);
 const initialOrderStyle = generateInitialOrderStyle(flashcardsData.length);
+const orderCSS = generateOrderCSS(flashcardsData.length);
 
 const htmlTemplate = `<!DOCTYPE html>
 <html lang="en">
@@ -63,15 +74,7 @@ const htmlTemplate = `<!DOCTYPE html>
     flash-cards > details {
       order: var(--fc-order);
     }
-    flash-cards > details:nth-child(2) { --fc-order: var(--fc-1); }
-    flash-cards > details:nth-child(3) { --fc-order: var(--fc-2); }
-    flash-cards > details:nth-child(4) { --fc-order: var(--fc-3); }
-    flash-cards > details:nth-child(5) { --fc-order: var(--fc-4); }
-    flash-cards > details:nth-child(6) { --fc-order: var(--fc-5); }
-    flash-cards > details:nth-child(7) { --fc-order: var(--fc-6); }
-    flash-cards > details:nth-child(8) { --fc-order: var(--fc-7); }
-    flash-cards > details:nth-child(9) { --fc-order: var(--fc-8); }
-    flash-cards > details:nth-child(10) { --fc-order: var(--fc-9); }
+${orderCSS}
   </style>
   <script>
     customElements.define('flash-cards', class extends HTMLElement {
