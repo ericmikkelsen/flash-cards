@@ -22,10 +22,10 @@ function escapeHTML(str) {
 
 // Function to generate a single flashcard details/summary element
 function generateFlashcardHTML(card) {
-  return `<details name="flashcards">
-  <summary>${escapeHTML(card.front)}</summary>
-  ${escapeHTML(card.back)}
-</details>`;
+  return `    <details name="flashcards">
+      <summary>${escapeHTML(card.front)}</summary>
+      ${escapeHTML(card.back)}
+    </details>`;
 }
 
 // Function to generate all flashcards HTML
