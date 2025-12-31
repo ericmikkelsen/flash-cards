@@ -1,10 +1,17 @@
 import flashcardsData from './flashcards.json';
 
+// Function to escape HTML to prevent XSS
+function escapeHTML(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
 // Function to generate a single flashcard details/summary element
 function generateFlashcardHTML(card) {
   return `<details name="flashcards">
-  <summary>${card.front}</summary>
-  ${card.back}
+  <summary>${escapeHTML(card.front)}</summary>
+  ${escapeHTML(card.back)}
 </details>`;
 }
 
