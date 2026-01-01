@@ -1,14 +1,21 @@
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, copyFileSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Ensure dist directory exists
+mkdirSync(join(__dirname, 'dist'), { recursive: true });
+
 // Read the flashcards data
 const flashcardsData = JSON.parse(
   readFileSync(join(__dirname, 'flashcards.json'), 'utf-8')
 );
+
+// Read the CSS and JS files
+const styleCSS = readFileSync(join(__dirname, 'style.css'), 'utf-8');
+const mainJS = readFileSync(join(__dirname, 'main.js'), 'utf-8');
 
 // Function to escape HTML to prevent XSS
 function escapeHTML(str) {
@@ -63,48 +70,10 @@ const htmlTemplate = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flash Cards</title>
+  <link rel="stylesheet" href="style.css">
   <style>
-    flash-cards {
-      display: flex;
-      flex-direction: column;
-    }
-    flash-cards > button {
-      order: -1;
-    }
-    flash-cards > details {
-      order: var(--fc-order);
-    }
 ${orderCSS}
   </style>
-  <script>
-    customElements.define('flash-cards', class extends HTMLElement {
-      connectedCallback() {
-        // Use setTimeout to ensure button is in the DOM
-        setTimeout(() => {
-          const button = this.querySelector('button');
-          const details = Array.from(this.querySelectorAll('details'));
-          const count = details.length;
-          
-          if (!button) return;
-          
-          button.addEventListener('click', () => {
-            // Create an array of numbers from 1 to count
-            const numbers = Array.from({ length: count }, (_, i) => i + 1);
-            
-            // Shuffle the array using Fisher-Yates algorithm
-            for (let i = numbers.length - 1; i > 0; i--) {
-              const j = Math.floor(Math.random() * (i + 1));
-              [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
-            }
-            
-            // Update the CSS custom properties
-            const styleProps = numbers.map((num, idx) => \`--fc-\${idx + 1}:\${num}\`).join(';');
-            this.setAttribute('style', styleProps);
-          });
-        }, 0);
-      }
-    });
-  </script>
 </head>
 <body>
   <h1>Flash Cards</h1>
@@ -112,10 +81,17 @@ ${orderCSS}
     <button>Randomize Order</button>
 ${flashcardsHTML}
   </flash-cards>
+  <script src="main.js"></script>
 </body>
 </html>
 `;
 
 // Write to dist directory
 writeFileSync(join(__dirname, 'dist', 'index.html'), htmlTemplate);
+
+// Copy CSS and JS files to dist
+copyFileSync(join(__dirname, 'style.css'), join(__dirname, 'dist', 'style.css'));
+copyFileSync(join(__dirname, 'main.js'), join(__dirname, 'dist', 'main.js'));
+
 console.log('✓ Static HTML generated successfully');
+console.log('✓ CSS and JS files copied to dist/');

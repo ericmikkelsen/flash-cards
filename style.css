@@ -1,0 +1,12 @@
+flash-cards {
+  display: flex;
+  flex-direction: column;
+}
+
+flash-cards > button {
+  order: -1;
+}
+
+flash-cards > details {
+  order: var(--fc-order);
+}

@@ -43,6 +43,24 @@ const server = createServer((req, res) => {
   if (req.url === '/' || req.url === '/index.html') {
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(htmlContent);
+  } else if (req.url === '/style.css') {
+    try {
+      const css = readFileSync(join(__dirname, 'dist', 'style.css'), 'utf-8');
+      res.writeHead(200, { 'Content-Type': 'text/css' });
+      res.end(css);
+    } catch (err) {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Not Found');
+    }
+  } else if (req.url === '/main.js') {
+    try {
+      const js = readFileSync(join(__dirname, 'dist', 'main.js'), 'utf-8');
+      res.writeHead(200, { 'Content-Type': 'application/javascript' });
+      res.end(js);
+    } catch (err) {
+      res.writeHead(404, { 'Content-Type': 'text/plain' });
+      res.end('Not Found');
+    }
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
@@ -55,7 +73,7 @@ server.listen(PORT, () => {
 });
 
 // Watch for changes in source files
-const filesToWatch = ['build.js', 'flashcards.json'];
+const filesToWatch = ['build.js', 'flashcards.json', 'style.css', 'main.js'];
 const watchers = [];
 
 filesToWatch.forEach(file => {
