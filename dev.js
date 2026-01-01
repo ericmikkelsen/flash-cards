@@ -56,24 +56,44 @@ server.listen(PORT, () => {
 
 // Watch for changes in source files
 const filesToWatch = ['build.js', 'flashcards.json'];
+const watchers = [];
 
 filesToWatch.forEach(file => {
   const filePath = join(__dirname, file);
-  watch(filePath, async (eventType) => {
-    if (eventType === 'change') {
-      console.log(`\n↻ ${file} changed, rebuilding...`);
-      try {
-        await buildHTML();
-        console.log('✓ Rebuild complete\n');
-      } catch (err) {
-        console.error('✗ Rebuild failed:', err.message);
+  try {
+    const watcher = watch(filePath, async (eventType) => {
+      if (eventType === 'change') {
+        console.log(`\n↻ ${file} changed, rebuilding...`);
+        try {
+          await buildHTML();
+          console.log('✓ Rebuild complete\n');
+        } catch (err) {
+          console.error('✗ Rebuild failed:', err.message);
+        }
       }
-    }
-  });
+    });
+    watchers.push(watcher);
+  } catch (err) {
+    console.warn(`⚠ Could not watch ${file}: ${err.message}`);
+  }
 });
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
-  console.log('\n\n✓ Dev server stopped');
-  process.exit(0);
+  console.log('\n\n↻ Shutting down dev server...');
+  
+  // Close all file watchers
+  watchers.forEach(watcher => {
+    try {
+      watcher.close();
+    } catch (err) {
+      // Ignore errors during cleanup
+    }
+  });
+  
+  // Close the HTTP server
+  server.close(() => {
+    console.log('✓ Dev server stopped');
+    process.exit(0);
+  });
 });
