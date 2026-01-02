@@ -1,0 +1,38 @@
+[
+  {
+    "front": "entiendo",
+    "back": "I understand"
+  },
+  {
+    "front": "entiendes",
+    "back": "you understand"
+  },
+  {
+    "back": "Nice to meet you!",
+    "front": "¡Mucho gusto!"
+  },
+  {
+    "front": "disculpe",
+    "back": "excuse me"
+  },
+  {
+    "front": "ese usted Norteamericano?",
+    "back": "Are you American?"
+  },
+  {
+    "front": "disculpe, entiende Englis?",
+    "back": "excuse me, do you understand english?" 
+  },
+  {
+    "front": "Si, ablo un poco de Espanol",
+    "back": "Yes, I speak a little Spanish"
+  },
+  {
+    "front": "Me gustaría un espresso doble, por favor.",
+    "back": "I would like a double espresso, please."
+  },
+  {
+    "front": "Quiero un café solo, sin leche, por favor.",
+    "back": "I would like a black coffee without milk, please."
+  }
+]
