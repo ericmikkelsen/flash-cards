@@ -54,6 +54,32 @@ button {
     transform: translateY(.1em);
   }
 }
+/* Make the select inside the back/front label match the button styles */
+label.back-front-order select {
+  font-family: inherit;
+  font-size: 2em;
+  line-height: 1.5;
+  padding: 16px 48px 16px 16px;
+  background-color: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: .25em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M6 9l6 6 6-6' stroke='%23fff' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 1.2em;
+}
+label.back-front-order select:active {
+  transform: translateY(.08em);
+}
 details {
   border: 1em;
   background-color: var(--accent);
