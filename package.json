@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "node dev.js",
+    "start": "npm run dev",
     "build": "mkdir -p dist && node build.js"
   }
 }
