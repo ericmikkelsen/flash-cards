@@ -25,6 +25,14 @@
   },
   {
     "front": "Si, ablo un poco de Espanol",
-    "back": "I speak a little Spanish"
+    "back": "Yes, I speak a little Spanish"
+  },
+  {
+    "front": "Me gustaría un espresso doble, por favor.",
+    "back": "I would like a double espresso, please."
+  },
+  {
+    "front": "Quiero un café solo, sin leche, por favor.",
+    "back": "I would like a black coffee without milk, please."
   }
 ]
